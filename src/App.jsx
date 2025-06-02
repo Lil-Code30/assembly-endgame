@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import { useWindowSize } from "react-use";
 import clsx from "clsx";
-import { getFarewellText, getRandomWord } from "./utils";
+import Confetti from "react-confetti";
 
+import { getFarewellText, getRandomWord } from "./utils";
 import { languages } from "./languages";
 
 function Hangman() {
@@ -22,6 +24,8 @@ function Hangman() {
   const lastGuessedLetter = userGuessedLetters[userGuessedLetters.length - 1];
   const isLastGuessIncorrect =
     lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
+
+  const { width, height } = useWindowSize();
 
   // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -133,8 +137,10 @@ function Hangman() {
     }
   );
 
+  console.log(currentWord);
   return (
     <main>
+      {isGameWon && <Confetti width={width} height={height} />}
       <header className="flex-center flex-col mt-15 w-full md:w-2/3 lg:w-[50%] md:mx-auto">
         <h1 className="md:text-4xl text-3xl text-center font-semibold text-[#F9F4DA]">
           Assembly: Endgame
