@@ -1,1 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
+
+@theme {
+  --font-Hanken: "Hanken Grotesk", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply font-Hanken;
+    margin: 0;
+    background-color: #262626;
+    color: #d9d9d9;
+    padding: 20px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+  }
+}
+@utility flex-center {
+  @apply flex justify-center items-center;
+}
