@@ -32,6 +32,11 @@ function Hangman() {
     );
   };
 
+  const startNewGame = () => {
+    setCurrentWord(getRandomWord());
+    setUserGuessedLetters([]);
+  };
+
   const keyboardElements = alphabet.split("").map((letter) => {
     const isGuessed = userGuessedLetters.includes(letter);
     const isCorrect = isGuessed && currentWord.split("").includes(letter);
@@ -58,12 +63,18 @@ function Hangman() {
   });
 
   const letterElements = currentWord.split("").map((letter) => {
+    const shouldRevealLetter =
+      isGameLost || userGuessedLetters.includes(letter);
+    const letterClassName = clsx(
+      "size-[60px] bg-[#323232] flex-center border-b-3 border-b-[#F9F4DA] text-3xl font-bold",
+      {
+        "text-red-500": isGameLost && !userGuessedLetters.includes(letter),
+      }
+    );
+
     return (
-      <span
-        key={nanoid()}
-        className="size-[60px] bg-[#323232] flex-center border-b-3 border-b-[#F9F4DA] text-3xl font-bold"
-      >
-        {userGuessedLetters.includes(letter) ? letter.toUpperCase() : ""}
+      <span key={nanoid()} className={letterClassName}>
+        {shouldRevealLetter ? letter.toUpperCase() : ""}
       </span>
     );
   });
@@ -144,7 +155,10 @@ function Hangman() {
         {keyboardElements}
       </section>
       {isGameOver && (
-        <button className="bg-[#11B5E5] border-1 border-[#D7D7D7] rounded-[4px] text-[#1E1E1E] text-xl font-bold font-Hanken px-[6px] text-center block w-[225px] h-[40px] mx-auto mt-10 cursor-pointer">
+        <button
+          onClick={startNewGame}
+          className="bg-[#11B5E5] border-1 border-[#D7D7D7] rounded-[4px] text-[#1E1E1E] text-xl font-bold font-Hanken px-[6px] text-center block w-[225px] h-[40px] mx-auto mt-10 cursor-pointer"
+        >
           New Game
         </button>
       )}
