@@ -1,7 +1,59 @@
-# React + Tailwindcss + Vite
+# 🧠 Assembly: Endgame
 
-This template provides a minimal setup to get React and Tailwindcss working in Vite with HMR and some ESLint rules.
+A Word Guessing Game
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-- [@tailwindcss/vite](https://github.com/tailwindlabs/tailwindcss)
+> _Guess the word in under 8 attempts to keep the programming world safe from Assembly!_
+
+Each time you guess a wrong letter, one programming language vanishes from existence... Can you outsmart Assembly and save your favorite languages?
+
+## 🚀 Demo
+
+[🔗 Live Demo](#)
+
+## Result
+
+<table>
+  <tr>
+    <td><img src="public/result/01.png" alt="Screenshot 1" width="100%"/></td>
+    <td><img src="public/result/02.png" alt="Screenshot 2" width="100%"/></td>
+  </tr>
+  <tr>
+    <td><img src="public/result/03.png" alt="Screenshot 3" width="100%"/></td>
+    <td><img src="public/result/04.png" alt="Screenshot 4" width="100%"/></td>
+  </tr>
+</table>
+
+## 🎮 Gameplay
+
+**Assembly: Endgame** is a fun, interactive word guessing game built with **React.js**. Inspired by Hangman, the twist is: you're battling Assembly itself. With every incorrect guess, a programming language is wiped out from the digital universe. Your mission: guess the hidden word before it's too late.
+
+### 🕹️ How to Play
+
+- You have **8 attempts** to guess the hidden word.
+- Guess one letter at a time.
+- Each incorrect guess causes one programming language to be "deleted."
+- Win by revealing the full word before running out of attempts.
+- Lose, and Assembly takes over... for now.
+
+## ✨ Features
+
+- ⚛️ Built with React.js
+- 🎨 Sleek and responsive UI with TailwindCSS
+- 🔄 Replayable with different words every round
+- 💀 Unique "language deletion" animation for wrong guesses
+
+## 📦 Installation
+
+To run the game locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/Lil-Code30/assembly-endgame
+cd assembly-endgame
+
+# Install dependencies
+npm install
+
+# run the app
+npm run dev
+```
