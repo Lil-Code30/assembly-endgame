@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import clsx from "clsx";
 
 import { languages } from "./languages";
 
 function Hangman() {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
   const [currentWord, setCurrentWord] = useState("typescript");
   const [userGuessedLetters, setUserGuessedLetters] = useState([]);
+
+  const wrongGuessCount = userGuessedLetters.filter(
+    (letter) => !currentWord.includes(letter)
+  ).length;
+
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
   const handleGuessedLetter = (letter) => {
     setUserGuessedLetters((prevLetter) =>
@@ -15,11 +21,23 @@ function Hangman() {
   };
 
   const keyboardElements = alphabet.split("").map((letter) => {
+    const isGuessed = userGuessedLetters.includes(letter);
+    const isCorrect = isGuessed && currentWord.split("").includes(letter);
+    const isWrong = isGuessed && !currentWord.split("").includes(letter);
+
+    const keyboardElementsClass = clsx(
+      "size-[50px] rounded-[4px] p-[4px] border-1 font-semibold border-[#D7D7D7] text-[#1E1E1E] bg-[#FCBA29] text-2xl ",
+      {
+        "bg-green-500": isCorrect,
+        "bg-red-500": isWrong,
+      }
+    );
+
     return (
       <button
         onClick={() => handleGuessedLetter(letter)}
         key={nanoid()}
-        className=" size-[50px] rounded-[4px] p-[4px] border-1 font-semibold border-[#D7D7D7] text-[#1E1E1E] bg-[#FCBA29] text-2xl bg-"
+        className={keyboardElementsClass}
       >
         {letter.toUpperCase()}
       </button>
@@ -32,24 +50,26 @@ function Hangman() {
         key={nanoid()}
         className="size-[60px] bg-[#323232] flex-center border-b-3 border-b-[#F9F4DA] text-3xl font-bold"
       >
-        {letter.toUpperCase()}
+        {userGuessedLetters.includes(letter) ? letter.toUpperCase() : ""}
       </span>
     );
   });
 
-  const languagesBox = languages.map(({ name, backgroundColor, color }) => {
-    return (
-      <div
-        key={name}
-        style={{ backgroundColor: backgroundColor, color: color }}
-        className="w-auto rounded-[3px] font-bold py-1 px-2 flex-center"
-      >
-        {name}
-      </div>
-    );
-  });
+  const languagesBox = languages.map(
+    ({ name, backgroundColor, color }, index) => {
+      const isLanguageLost = index < wrongGuessCount;
 
-  console.log(userGuessedLetters);
+      return (
+        <span
+          key={name}
+          style={{ backgroundColor: backgroundColor, color: color }}
+          className={`chip ${isLanguageLost ? "lost" : ""} `}
+        >
+          {name}
+        </span>
+      );
+    }
+  );
 
   return (
     <main>
@@ -66,7 +86,7 @@ function Hangman() {
         <h2 className="text-2xl">You win!</h2>
         <p className="text-xl font-normal">Well done! 🎉</p>
       </section>
-      <section className="flex-center flex-wrap gap-1 max-w-[400px] mx-auto my-10">
+      <section className="flex-center flex-wrap gap-1 max-w-[400px] mx-auto my-10 ">
         {languagesBox}
       </section>
       <section className="w-full md:w-[90%] flex-center gap-1 mx-auto flex-wrap">

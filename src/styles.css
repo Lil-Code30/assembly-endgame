@@ -18,6 +18,25 @@
     justify-content: center;
   }
 }
+@layer components {
+  span.chip {
+    @apply w-auto rounded-[3px] font-bold py-1 px-2 flex-center relative;
+  }
+  /* Dimmed overlay with skull on "lost" languages */
+  span.chip.lost::before {
+    content: "💀";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    font-size: 0.85rem;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+}
 @utility flex-center {
   @apply flex justify-center items-center;
 }
