@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import clsx from "clsx";
-import { getFarewellText } from "./utils";
+import { getFarewellText, getRandomWord } from "./utils";
 
 import { languages } from "./languages";
 
 function Hangman() {
   // state values
-  const [currentWord, setCurrentWord] = useState("typescript");
+  const [currentWord, setCurrentWord] = useState(() => getRandomWord());
   const [userGuessedLetters, setUserGuessedLetters] = useState([]);
 
   // Derived values
@@ -121,6 +121,7 @@ function Hangman() {
         !isGameOver && isLastGuessIncorrect,
     }
   );
+
   return (
     <main>
       <header className="flex-center flex-col mt-15 w-full md:w-2/3 lg:w-[50%] md:mx-auto">
