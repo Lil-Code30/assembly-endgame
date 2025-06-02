@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { nanoid } from "nanoid";
+
 import { languages } from "./languages";
 
 function Hangman() {
@@ -6,7 +8,10 @@ function Hangman() {
 
   const letterElements = currentWord.split("").map((letter) => {
     return (
-      <span className="size-[60px] bg-[#323232] flex-center border-b-3 border-b-[#F9F4DA] text-3xl font-bold">
+      <span
+        key={nanoid()}
+        className="size-[60px] bg-[#323232] flex-center border-b-3 border-b-[#F9F4DA] text-3xl font-bold"
+      >
         {letter.toUpperCase()}
       </span>
     );
