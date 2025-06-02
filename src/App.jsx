@@ -1,17 +1,29 @@
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import clsx from "clsx";
+import { getFarewellText } from "./utils";
 
 import { languages } from "./languages";
 
 function Hangman() {
+  // state values
   const [currentWord, setCurrentWord] = useState("typescript");
   const [userGuessedLetters, setUserGuessedLetters] = useState([]);
 
+  // Derived values
   const wrongGuessCount = userGuessedLetters.filter(
     (letter) => !currentWord.includes(letter)
   ).length;
+  const isGameWon = currentWord
+    .split("")
+    .every((letter) => userGuessedLetters.includes(letter));
+  const isGameLost = wrongGuessCount >= languages.length - 1;
+  const isGameOver = isGameWon || isGameLost;
+  const lastGuessedLetter = userGuessedLetters[userGuessedLetters.length - 1];
+  const isLastGuessIncorrect =
+    lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
+  // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
 
   const handleGuessedLetter = (letter) => {
@@ -71,6 +83,43 @@ function Hangman() {
     }
   );
 
+  function renderGameStatus() {
+    if (!isGameOver && isLastGuessIncorrect) {
+      return (
+        <p className="text-3xl">
+          {getFarewellText(languages[wrongGuessCount - 1].name)}
+        </p>
+      );
+    }
+
+    if (isGameWon) {
+      return (
+        <>
+          <h2 className="text-3xl">You win!</h2>
+          <p>Well done! 🎉</p>
+        </>
+      );
+    }
+    if (isGameLost) {
+      return (
+        <>
+          <h2 className="text-3xl">Game over!</h2>
+          <p>You lose! Better start learning Assembly 😭</p>
+        </>
+      );
+    }
+    return null;
+  }
+
+  const gameStatusClass = clsx(
+    "w-full md:w-2/3 lg:w-[50%] mx-auto rounded-[4px] h-[60px]  text-[#F9F4DA] font-medium flex-center flex-col py-10 mt-6",
+    {
+      "bg-[#10A95B]": isGameWon,
+      "bg-[#BA2A2A]": isGameLost,
+      "bg-[#7A5EA7] border-1 border-dashed italic":
+        !isGameOver && isLastGuessIncorrect,
+    }
+  );
   return (
     <main>
       <header className="flex-center flex-col mt-15 w-full md:w-2/3 lg:w-[50%] md:mx-auto">
@@ -82,10 +131,7 @@ function Hangman() {
           from Assembly!
         </p>
       </header>
-      <section className="w-full md:w-2/3 lg:w-[50%] mx-auto rounded-[4px] h-[60px] bg-[#10A95B] text-[#F9F4DA] font-medium flex-center flex-col py-10 mt-6">
-        <h2 className="text-2xl">You win!</h2>
-        <p className="text-xl font-normal">Well done! 🎉</p>
-      </section>
+      <section className={gameStatusClass}>{renderGameStatus()}</section>
       <section className="flex-center flex-wrap gap-1 max-w-[400px] mx-auto my-10 ">
         {languagesBox}
       </section>
@@ -95,9 +141,11 @@ function Hangman() {
       <section className="flex-center flex-wrap gap-3 mt-8 w-full md:w-[80%] lg:w-[50%] mx-auto">
         {keyboardElements}
       </section>
-      <button className="bg-[#11B5E5] border-1 border-[#D7D7D7] rounded-[4px] text-[#1E1E1E] text-xl font-bold font-Hanken px-[6px] text-center block w-[225px] h-[40px] mx-auto mt-10 cursor-pointer">
-        New Game
-      </button>
+      {isGameOver && (
+        <button className="bg-[#11B5E5] border-1 border-[#D7D7D7] rounded-[4px] text-[#1E1E1E] text-xl font-bold font-Hanken px-[6px] text-center block w-[225px] h-[40px] mx-auto mt-10 cursor-pointer">
+          New Game
+        </button>
+      )}
     </main>
   );
 }
