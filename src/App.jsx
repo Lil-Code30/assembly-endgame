@@ -38,7 +38,7 @@ function Hangman() {
     const isWrong = isGuessed && !currentWord.split("").includes(letter);
 
     const keyboardElementsClass = clsx(
-      "size-[50px] rounded-[4px] p-[4px] border-1 font-semibold border-[#D7D7D7] text-[#1E1E1E] bg-[#FCBA29] text-2xl ",
+      "size-[50px] rounded-[4px] p-[4px] border-1 font-semibold border-[#D7D7D7] text-[#1E1E1E] bg-[#FCBA29] text-2xl disabled:opacity-40 disabled:cursor-not-allowed",
       {
         "bg-green-500": isCorrect,
         "bg-red-500": isWrong,
@@ -49,6 +49,7 @@ function Hangman() {
       <button
         onClick={() => handleGuessedLetter(letter)}
         key={nanoid()}
+        disabled={isGameOver}
         className={keyboardElementsClass}
       >
         {letter.toUpperCase()}
