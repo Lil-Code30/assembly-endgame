@@ -137,7 +137,6 @@ function Hangman() {
     }
   );
 
-  console.log(currentWord);
   return (
     <main>
       {isGameWon && <Confetti width={width} height={height} />}
